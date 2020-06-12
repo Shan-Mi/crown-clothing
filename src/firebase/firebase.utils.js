@@ -13,6 +13,40 @@ const firebaseConfig = {
   measurementId: "G-VDWWFJBJER",
 };
 
+// This is async
+// If not log-in, userAuth === null
+// both of userAuth and additionalData are objects, additionalData is any possible incoming data object
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return; // if there is no user, exit the function
+
+  // const userRef = firestore.doc('user/12cadgadg'); 
+  const userRef = firestore.doc(`users/${userAuth.uid}`); 
+  // get user reference at that location
+  const snapShot = await userRef.get();
+  // .get() - get a snapshot from db
+
+  console.log(snapShot);
+
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    // check if there is any data, if no data, we create one new user
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("error creating user", error.message);
+    }
+  }
+
+  return userRef; // we need userRef
+  // create a snapshot
+};
+
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
