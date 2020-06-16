@@ -10,6 +10,9 @@ import { toggleCartHidden } from "../../redux/cart/cart.actions.js";
 
 import "./cart-dropdown.styles.scss";
 
+// 1. By default, a connected component receives props.dispatch and can dispatch actions itself.
+// 2. connect can accept an argument called mapDispatchToProps, which lets you create functions that dispatch when called, and pass those functions as props to your component.
+// Providing a mapDispatchToProps allows you to specify which actions your component might need to dispatch. It lets you provide action dispatching functions as props. Therefore, instead of calling props.dispatch(() => increment()), you may call props.increment() directly. 
 const CartDropdown = ({ cartItems, history, dispatch }) => (
   <div className="cart-dropdown">
     <div className="cart-items">
