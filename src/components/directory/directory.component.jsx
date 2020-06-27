@@ -6,6 +6,7 @@ import { selectDirectorySections } from "../../redux/directory/directory.selecto
 import "./directory.styles.scss";
 import MenuItem from "../menu-item/menu-item.component";
 
+// re-write it to a function component, cuz we don't need to access to state
 const Directory = ({ sections }) => (
   <div className="directory-menu">
     {sections.map(({ id, ...otherSectionProps }) => (
