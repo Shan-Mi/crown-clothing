@@ -6,7 +6,11 @@ import rootReducer from "./root-reducer";
 
 // config middleware, can check it out on redux docs
 // middleware is an array
-const middlewares = [logger];
+const middlewares = [];
+
+if (process.env.NODE_ENV === "development") {
+  middlewares.push(logger);
+}
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 export const persistor = persistStore(store);
