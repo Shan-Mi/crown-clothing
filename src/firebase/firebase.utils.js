@@ -20,10 +20,16 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return; // if there is no user, exit the function
   // we only save to our db if we get back a user of obj, which means they signed in
 
-  // const userRef = firestore.doc('user/12cadgadg'); 
-  const userRef = firestore.doc(`users/${userAuth.uid}`); 
+  // const userRef = firestore.doc('user/12cadgadg');
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
   // get user reference at that location, if user exists
   const snapShot = await userRef.get();
+
+  // const collectionRef = firestore.collection("users");
+  // console.log({ collectionRef });
+  // const collectionSnapshot = await collectionRef.get();
+  // console.log({ collectionSnapshot });
+  // console.log({collection: collectionSnapshot.docs.map(doc => doc.data())});
   // .get() - get a snapshot from db
   // console.log(snapShot);
 
@@ -45,6 +51,21 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   return userRef; // we need userRef
   // create a snapshot
+};
+
+export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+
+  const batch = firestore.batch();
+  objectToAdd.forEach((obj) => {
+    const newDocRef = collectionRef.doc();
+    // to generate a unique id, otherwise we can pass e.g. obj.id into ()
+    batch.set(newDocRef, obj);
+  });
+
+  //this will invoke batch request and give us a promise
+  // if resolve, return a void value - aka a null value
+  return await batch.commit();
 };
 
 firebase.initializeApp(firebaseConfig);
