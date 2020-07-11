@@ -45,7 +45,7 @@ class ShopPage extends React.Component {
       this.setState({ loading: false });
     });
 
-    // 3. fetch
+    // 3. fetch (pain in the ass, don't do this)
     // fetch(
     //   "https://firestore.googleapis.com/v1/projects/crown-db-59102/databases/(default)/documents/collections"
     // )
