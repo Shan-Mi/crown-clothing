@@ -1,9 +1,9 @@
 import React from "react";
-
+import { connect } from "react-redux";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 
-import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
+import { signUpStart } from "../../redux/user/user.actions";
 
 import { SignUpContainer } from "./sign-up.styles";
 // import "./sign-up.styles.scss";
@@ -24,7 +24,7 @@ class SignUp extends React.Component {
   // It is an async func to stop event to submit
   handleSubmit = async (event) => {
     event.preventDefault();
-
+    const { signUpStart } = this.props;
     const { displayName, email, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
@@ -32,26 +32,7 @@ class SignUp extends React.Component {
       return;
     }
 
-    // auth.createUserWithEmailAndPassword will return lots of stuff, we want the user obj, so use destructure for it
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      // displayName comes in an obj, that's why we use curly braces around it, and the name: value are the same, so we just need to write them once.
-      await createUserProfileDocument(user, { displayName });
-      this.setState({
-        displayName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
-      // Once created user, we set state to intial value - everything is empty
-      // Clear our form!
-    } catch (error) {
-      console.error(error);
-    }
+    signUpStart({ displayName, email, password });
   };
 
   handleChange = (event) => {
@@ -107,4 +88,7 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp;
+const mapDispatchToProps = (dispatch) => ({
+  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
+});
+export default connect(null, mapDispatchToProps)(SignUp);

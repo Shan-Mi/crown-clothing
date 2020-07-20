@@ -42,12 +42,6 @@ const Header = ({ currentUser, hidden, signOutStart }) => (
   </HeaderContainer>
 );
 
-// state is rootReducer
-// const mapStateToProps = (state) => ({
-//   currentUser: selectCurrentUser(state),
-//   hidden: selectCartHidden(state),
-// });
-
 // auto pass top-level state
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,

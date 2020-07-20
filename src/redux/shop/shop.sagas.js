@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, all } from "redux-saga/effects";
 
 import {
   firestore,
@@ -35,3 +35,7 @@ export function* fetchCollectionsStart() {
   );
 }
 // We only want to get data back once, and the latest one tends to get back the latest data that we need, so that would suit our situation better and would be a better option.
+
+export function* shopSagas() {
+  yield all([call(fetchCollectionsStart)]);
+}
