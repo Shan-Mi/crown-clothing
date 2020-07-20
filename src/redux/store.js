@@ -3,9 +3,8 @@ import { persistStore } from "redux-persist";
 import logger from "redux-logger";
 import createSagaMiddleware from "redux-saga";
 
-import { fetchCollectionsStart } from "./shop/shop.sagas";
-
 import rootReducer from "./root-reducer";
+import rootSaga from "./root-saga";
 
 // config middleware, can check it out on redux docs
 // middleware is an array
@@ -19,7 +18,7 @@ if (process.env.NODE_ENV === "development") {
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
-sagaMiddleware.run(fetchCollectionsStart);
+sagaMiddleware.run(rootSaga);
 // pass each individuel saga inside of run
 
 export const persistor = persistStore(store);

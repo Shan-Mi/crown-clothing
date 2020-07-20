@@ -1,12 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 
-import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from "../../redux/user/user.actions";
 
 import { SignInContainer, ButtonsContainer } from "./sign-in.styles";
-// import "./sign-in.styles.scss";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -20,14 +23,10 @@ class SignIn extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    const { emailSignInStart } = this.props;
     const { email, password } = this.state;
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      // clear input field
-      this.setState({ email: "", password: "" });
-    } catch (err) {
-      console.error(err);
-    }
+
+    emailSignInStart(email, password);
   };
 
   handleChange = (e) => {
@@ -39,9 +38,10 @@ class SignIn extends React.Component {
   };
 
   render() {
+    const { googleSignInStart } = this.props;
     return (
       <SignInContainer>
-        <h2 className='title'>I already have an account</h2>
+        <h2 className="title">I already have an account</h2>
         <span>Sign in with your email and password</span>
 
         <form onSubmit={this.handleSubmit}>
@@ -68,7 +68,7 @@ class SignIn extends React.Component {
             </CustomButton>
             <CustomButton
               type="button"
-              onClick={signInWithGoogle}
+              onClick={googleSignInStart}
               isGoogleSignIn>
               Sign In with Google
             </CustomButton>
@@ -79,5 +79,11 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+const mapDispatchToProps = (dispatch) => ({
+  googleSignInStart: () => dispatch(googleSignInStart()),
+  emailSignInStart: (email, password) =>
+    dispatch(emailSignInStart({ email, password })),
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);
 // isGoogleSignIn will get a value of true if we don't pass a value to it.
