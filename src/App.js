@@ -11,6 +11,7 @@ import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
+import { checkUserSession } from "./redux/user/user.actions";
 // We need to pass auth info to component so that they can get access to user, no matter if they logged in via Google or Email
 class App extends React.Component {
   // this is a method
@@ -18,31 +19,8 @@ class App extends React.Component {
   // We need to remove it or unsubscribe it when we finished otherwise there will be memory leaking problem
 
   componentDidMount() {
-    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-    // this.setState({ currentUser: user });
-    // console.log(user);
-    // if (userAuth) {
-    //   const userRef = await createUserProfileDocument(userAuth);
-    //   // snapshot is another obj that we get back from firebase
-    //   // we subscribe or listen to this userRef to any change to that data, get back the very first data anyway.
-    //   userRef.onSnapshot((snapShot) => {
-    //     setCurrentUser({
-    //       id: snapShot.id,
-    //       ...snapShot.data(),
-    //     });
-    //   });
-    //   // console.log(this.state)
-    //   // now we have id and other properties in our state.
-    //   // console.log(snapShot.data());
-    //   // then we can see all the properties which we stored in db
-    // }
-    // // createUserProfileDocument(user);
-    // // OBS! we wrap it with an else block, otherwise it will fire twice.
-    // // if user log out, we set it back to null
-    // else {
-    //   setCurrentUser(userAuth);
-    // }
-    // });
+    const { checkUserSession } = this.props;
+    checkUserSession();
   }
 
   componentWillUnmount() {
@@ -78,4 +56,8 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: ()=> dispatch(checkUserSession()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
