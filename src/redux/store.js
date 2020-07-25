@@ -12,7 +12,9 @@ if (process.env.NODE_ENV === "development") {
 
 export const store = createStore(
   rootReducer,
+
   compose(
+    applyMiddleware(...middlewares),
     typeof window === "object" &&
       typeof window.devToolsExtension !== "undefined"
       ? window.devToolsExtension()
