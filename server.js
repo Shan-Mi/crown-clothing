@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
+const compression = require("compression");
 // path is a native module
 
 // load dotenv in our process, enable process env to get access to the secret key from stripe
@@ -13,6 +14,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(compression());
 app.use(bodyParser.json());
 // 类似fetch回的数据总要经过.json来处理，在此做一个统一预处理的效果
 app.use(bodyParser.urlencoded({ extended: true }));
