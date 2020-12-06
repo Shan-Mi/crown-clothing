@@ -9,7 +9,6 @@ import {
   ImageContainer,
   CollectionFooterContainer,
 } from "./collection-item.styles";
-// import "./collection-item.styles.scss";
 
 // we don't need state, so create a function component
 const CollectionItem = ({ item, addItem }) => {
