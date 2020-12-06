@@ -1,6 +1,6 @@
 import React from "react";
 import CollectionItem from "../collection-item/collection-item.component";
-
+// import { Link } from "react-router-dom";
 import {
   CollectionPreviewContainer,
   TitleContainer,
@@ -10,7 +10,7 @@ import {
 
 const CollectionPreview = ({ title, items }) => (
   <CollectionPreviewContainer>
-    <TitleContainer>{title.toUpperCase()}</TitleContainer>
+    <TitleContainer to={`/shop/${title.toLowerCase()}`}>{title.toUpperCase()}</TitleContainer>
     <PreviewContainer>
       {items
         .filter((item, index) => index < 4)
