@@ -13,7 +13,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // express is just a library that allows us to build an API server easily
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 9999;
 
 app.use(compression());
 app.use(bodyParser.json());
